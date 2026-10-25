@@ -113,3 +113,9 @@ button .ui-icon{pointer-events:none}.brandmark .ui-icon{width:25px;height:25px}.
  .world:fullscreen .scene-wrap,.world.fs .scene-wrap{min-height:0;max-height:none;flex:1}.world:fullscreen .world-bottom,.world.fs .world-bottom{flex-shrink:0;padding-bottom:max(12px,env(safe-area-inset-bottom))}
 }
 @media(max-width:359px){.playback button{width:29px}.world-bottom #event{padding:8px;font-size:11px}.weather-controls button{gap:3px}#resident-list{grid-template-columns:repeat(3,minmax(0,1fr))}.weather small{display:block;margin:4px 0 0}}
+
+/* Still water; only four sparse fish silhouettes briefly surface. */
+.river-fish{opacity:0;animation:fish-glimpse var(--fish-duration) var(--fish-delay) linear infinite;pointer-events:none}
+@keyframes fish-glimpse{0%,73%{opacity:0;transform:translateX(-12px)}77%{opacity:.65}87%{opacity:.65}92%,100%{opacity:0;transform:translateX(14px)}}
+.paused .river-fish{animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){.river-fish{animation:none;opacity:.35}}
