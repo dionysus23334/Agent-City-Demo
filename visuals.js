@@ -144,7 +144,12 @@ function worldScenery(state){const out=[],add=(y,svg)=>out.push({y,svg});
  add(826,poly('1115,805 1190,833 1260,805 1185,777','#baa886','#8f947a')+txt(1185,811,state.flags.concert?'♫ 今晚有歌':'♫ 河岸小舞台',10));
  // Original market bunting, offset buildings, books and planted corners.
  add(390,path('M435 320Q550 410 685 335','#89917a',1)+Array.from({length:10},(_,i)=>{let t=i/10,x=447+t*225,y=335+Math.sin(t*Math.PI)*27;return poly(`${x},${y} ${x+12},${y+2} ${x+5},${y+15}`,['#bd927a','#a8b390','#d4c293'][i%3],'#919780',.5)}).join(''));
- for(const [x,y,k]of [[220,420,.9],[535,350,.8],[870,330,.9],[1415,575,.8],[230,740,.7],[720,865,.75],[1390,800,.8]])add(y,use('tree',x,y,k));
+ const trees=[[220,420,.9],[535,350,.8],[870,330,.9],[1415,575,.8],[230,740,.7],[720,865,.75],[1390,800,.8],...TownNav.smallTrees];
+ trees.forEach(([x,y,k],i)=>add(y,plant(x,y,k,i,use('tree',0,0),i<6)));
+ TownNav.shrubs.forEach(([x,y],i)=>add(y,plant(x,y,.8+(i%3)*.12,i+19,shrub(i))));
+ TownNav.statues.forEach(([x,y],i)=>add(y,sculpture(x,y,i)));
+ const beds=[[295,535],[455,610],[700,370],[975,425],[1210,575],[1370,625],[1155,690],[685,800],[475,830],[310,710],[780,650],[1050,680]];
+ beds.forEach(([x,y],i)=>{for(let j=0;j<3;j++)add(y+j*3,plant(x+j*14-12,y+(j%2)*7,.7+(j%3)*.15,i*3+j+35,grassFlowers(i+j),false))});
  for(const [x,y]of [[540,608],[955,575],[1150,650],[710,725]])add(y,use('lamp',x,y,.7));
  if(state.flags.planted||state.flags.newplant)add(785,txt(350,800,'❀ 邻里的新花圃',10));
  if(state.flags.archive||state.flags.oralhistory)add(432,txt(1100,432,'小镇记忆展',10));
@@ -153,4 +158,9 @@ function worldScenery(state){const out=[],add=(y,svg)=>out.push({y,svg});
  return out;
 }
 
-function fountain(x,y,r){return `<g class="town-fountain" transform="translate(${x} ${y})" aria-label="庭院喷泉">${ellipse(3,9,r+7,r*.48,'#64756218')}${ellipse(0,5,r,r*.48,'#aab59b','#82947d')}${ellipse(0,0,r,r*.48,'#e0e3cd','#82947d')}${ellipse(0,-2,r-6,r*.32,'#a9cbc7','#96b7aa')}<g class="fountain-water">${ellipse(0,-2,r*.6,r*.18,'none','#e8f1e4')}${path(`M${-r*.65} -3Q0 -12 ${r*.65} -3`,'#edf3e8',1)}</g>${path('M-4-5l1-24h6l1 24Z','#8f9e86',1,'#c2ceb3')}${ellipse(0,-27,r*.4,r*.16,'#d9dfc7','#95a58d')}<g class="fountain-water water-jets">${path(`M0 -29v-21M0 -46Q${-r*.6} -52 ${-r*.65} -8M0 -46Q${r*.6} -52 ${r*.65} -8`,'#93c1c4',1.8)}${ellipse(0,-49,2,3,'#d5e9df')}</g></g>`}
+function fountain(x,y,r){return `<g class="town-fountain" transform="translate(${x} ${y})" aria-label="庭院喷泉">${ellipse(3,9,r+7,r*.48,'#64756218')}${ellipse(0,5,r,r*.48,'#aab59b','#82947d')}${ellipse(0,0,r,r*.48,'#e0e3cd','#82947d')}${ellipse(0,-2,r-6,r*.32,'#a9cbc7','#96b7aa')}<g class="fountain-water">${ellipse(0,-2,r*.6,r*.18,'none','#e8f1e4')}${path(`M${-r*.65} -3Q0 -12 ${r*.65} -3`,'#edf3e8',1)}</g>${path('M-4-5l1-24h6l1 24Z','#8f9e86',1,'#c2ceb3')}${ellipse(0,-27,r*.4,r*.16,'#d9dfc7','#95a58d')}<g class="water-jets">${path(`M0 -29v-21M0 -46Q${-r*.6} -52 ${-r*.65} -8M0 -46Q${r*.6} -52 ${r*.65} -8`,'#93c1c4',1.8)}<g class="jet-drop jet-drop-a">${ellipse(0,-29,1.8,3,'#d1e9e6')}</g><g class="jet-drop jet-drop-b">${ellipse(0,-29,1.5,2.5,'#9dc8d1')}</g><ellipse class="water-ripple" cy="-2" rx="9" ry="3" fill="none" stroke="#edf5e6" stroke-width="1.2"/></g></g>`}
+
+function plant(x,y,scale,i,art,leaves=false){return `<g class="plant-cluster" transform="translate(${x} ${y}) scale(${scale})"><g class="plant-sway ${i%3?'quiet-plant':''}" style="--wind-duration:${10+i%7*1.7}s;--wind-delay:${-i*.83}s;--lean:${1.1+i%4*.35}deg">${art}</g>${leaves?`<g class="falling-leaf ${i>1?'extra-leaf':''}" style="--leaf-duration:${17+i*2.3}s;--leaf-delay:${-i*3.4}s">${path('M-4-65q12-7 14 2-7 7-14-2Z','#a99b65',.6,'#c6b177')}${path('M-3-64l10 2','#998b5d',.5)}</g>`:''}</g>`}
+function shrub(i){return `${ellipse(1,1,23,8,'#65785618')}<path d="M-22 0q-8-14 3-18 2-15 16-10 9-13 19-2 14-2 15 12 12 8 2 18Z" fill="${['#9eaf8b','#a8b68c','#b4bc91'][i%3]}" stroke="#81936e" stroke-width="1.1"/>${path('M-13-8q2-7 8-5m6-8q6-3 8 3m0 12q7 2 10-3','#899b74',1)}`}
+function grassFlowers(i){let s=path('M0 0q-2-14-7-19M1 0q3-20 8-25M-2 0q-9-7-12-7M3 0q8-12 14-12','#91a478',1.3);if(i%3!==0){for(const [x,y]of [[-6,-17],[8,-23],[15,-12]])s+=ellipse(x,y,4.5,3.2,['#d2ae9d','#e6d6a2','#cab9c5','#efe6ca'][i%4],'#a8a180')+ellipse(x,y,1.2,1.2,'#b49c64')}return s}
+function sculpture(x,y,i){return `<g class="town-sculpture" transform="translate(${x} ${y})" aria-label="${i?'飞鸟雕塑':'翻开的书雕塑'}">${ellipse(3,5,25,11,'#65725b16')}${poly('-18,0 0,8 19,-1 1,-9','#c4c9b9','#8d9986')}${poly('-11,-2 0,3 12,-3 12,-26 0,-21 -11,-26','#d7dac8','#8d9986')}${i?path('M0-28q-22-8-26-29 17 4 26 20 8-20 26-25-3 22-26 34Z','#879782',1.2,'#b5c3ad'):poly('-23,-46 -2,-41 1,-35 5,-42 25,-47 24,-29 3,-24 -23,-30','#e5e5d1','#8c9a85')}${i?'':path('M1-35v11M-18-41l13 4M9-38l11-4','#a1ad95',1)}</g>`}
