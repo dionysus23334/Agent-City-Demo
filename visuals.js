@@ -117,25 +117,20 @@ return s;
 function districtScenery(id){return id==='market'?[{y:434,svg:stall(371,414,'#b19a76','果园来信','fruit')},{y:430,svg:stall(790,410,'#a3ae8a','一束好心情','flower')},{y:568,svg:stall(750,548,'#b99683','今日烘焙','bread')},{y:518,svg:use('tree',934,518,1.1)},{y:624,svg:use('tree',683,624,.9)}]:[...(id==='books'?[{y:425,svg:use('tree',670,425,1.1)}]:[]),{y:600,svg:use('tree',760,600,1.05)},{y:536,svg:use('tree',940,536,.9)}]}
 
 // Small lived-in places connected by gentle paths, recalling the original scene compositions.
-// An inset river follows the land contour, with tapered ends and varied bank widths.
+// Rounded banks share one contour with the island, so the river never cuts through town.
+const townBank='M200 330Q445 227 675 139Q700 129 730 139L1430 345Q1466 356 1470 391L1494 617Q1500 650 1480 681L1388 827Q1370 855 1338 860L815 940Q780 945 745 936L261 818Q230 810 221 780L168 610Q160 580 162 550L173 375Q175 340 200 330Z';
 function riverArt(){
- const upper='M224 789C350 815 445 848 578 864C665 874 724 899 808 900C997 905 1197 858 1390 818';
- const shape=upper+'C1376 831 1369 844 1355 853C1167 898 986 935 808 932C709 931 646 902 564 894C422 880 310 837 228 813Z';
- let s=`<g class="town-river" aria-label="沿小镇边缘延伸的河流">${path(shape,'#a9b8a0',2,'#c4d4c9')}`;
- s+=path('M229 799C355 824 445 857 576 873C665 883 725 908 809 909C996 914 1196 867 1380 830','#dce2cd',5);
- s+=path('M258 814C390 851 464 875 568 883C660 893 722 921 807 922C996 925 1194 878 1356 844','#b0c8c2',12);
- // Small disconnected reflections keep the water quiet, without a stripe down the centre.
- for(const d of ['M404 857q19 7 34 9','M623 894q20 3 35 8','M841 916q28 0 48-3','M1034 895q20-3 33-7','M1208 861q20-5 34-8'])s+=path(d,'#e2ebe0',1.2);
- for(const [x,y,r] of [[330,820,5],[470,853,4],[597,867,5],[1010,886,4],[1140,862,6],[1305,834,4]])s+=ellipse(x,y,r,r*.45,'#b9bdab','#9eaa95')+path(`M${x-8} ${y-2}q-3-7-6-9m9 8q0-8 3-11`,'#9cab88',1);
- const fish=[[468,873,17,0],[754,918,6,-9],[1030,904,-12,-19],[1200,870,-14,-28]];
- fish.forEach(([x,y,angle,delay],i)=>{s+=`<g transform="translate(${x} ${y}) rotate(${angle})"><g class="river-fish" style="--fish-delay:${delay}s;--fish-duration:${34+i*3}s">${path('M-7 0Q-1-5 7 0Q-1 5-7 0L-12-3V3Z','none',0,i%2?'#8fa6a0':'#b09b7e')}${ellipse(4,-.4,.7,.7,'#6b817b')}</g></g>`});
+ // The land covers the inner half of a 120-unit water stroke: a 60-unit-wide river.
+ let s=`<g class="town-river" aria-label="环绕小镇的宽阔河流">${path(townBank,'#bac3ae',132,'#dbe1cb')}${path(townBank,'#c7d8cf',120)}${path(townBank,'#b5cec8',100)}${path(townBank,'#d7e1ce',12)}`;
+ for(const d of ['M350 887q24 7 43 10','M676 961q21 6 40 9','M870 967q28-2 50-7','M1140 926q26-4 45-9','M1515 724q13-22 20-38','M1532 449l4 28','M1120 219l35 10','M450 195l33-13','M133 435l-2 33'])s+=path(d,'#e4eee3',1.4);
+ const fish=[[465,908,17,0],[790,970,4,-9],[1140,925,-12,-19],[130,550,86,-28],[1535,550,-85,-12],[900,155,16,-24]];
+ fish.forEach(([x,y,angle,delay],i)=>{s+=`<g transform="translate(${x} ${y}) rotate(${angle})"><g class="river-fish" style="--fish-delay:${delay}s;--fish-duration:${38+i*3}s">${path('M-7 0Q-1-5 7 0Q-1 5-7 0L-12-3V3Z','none',0,i%2?'#8fa6a0':'#b09b7e')}${ellipse(4,-.4,.7,.7,'#6b817b')}</g></g>`});
  return s+'</g>';
 }
 
 function worldArt(state){
- const ground='175,340 700,130 1465,355 1500,650 1370,855 780,945 230,810 160,580';
- let s=ellipse(820,790,615,135,'#68705d12')+poly(ground,'#bac2a9','#98a38b',2)+`<g transform="translate(0 -9)">${poly(ground,'#dce0c7','#aab397',1)}</g>`;
- s+=riverArt();
+ let s=riverArt()+path(townBank,'#9da98e',2,'#dce0c7');
+ for(const [x,y,r] of [[251,807,5],[470,863,4],[610,898,5],[1010,909,4],[1300,858,5],[1469,705,4],[176,442,5],[490,210,4]])s+=ellipse(x,y,r,r*.45,'#b9bdab','#9eaa95');
  const lane='M350 505Q460 575 650 470Q810 400 1000 485T1340 580M570 568Q650 625 585 713Q720 820 940 744T1280 788';
  s+=path(lane,'#d1cdb7',39)+path(lane,'#eae3cf',34);
  for(const points of ['290,470 460,450 650,475 680,545 520,600 325,550','940,445 1110,435 1295,545 1205,585 1000,555','365,690 520,675 675,735 610,805 400,825','950,705 1130,695 1325,770 1240,825 985,820'])s+=poly(points,'#e7e2ce','none')+poly(points,'url(#paving)','none');

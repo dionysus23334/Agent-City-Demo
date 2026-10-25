@@ -26,12 +26,12 @@ function placeBubbles(){let m=$('scene').getScreenCTM(),r=document.querySelector
 function renderPeople(){const now=performance.now();if(now-lastDepth>200||!people.children.length){lastDepth=now;const rows=[...agents,...scenery].sort((a,b)=>a.y-b.y);rows.forEach((r,i)=>{if(people.children[i]!==r.el)people.insertBefore(r.el,people.children[i]||null)})}
 for(const a of agents){const t=`translate(${a.x.toFixed(1)} ${a.y.toFixed(1)})`;if(t!==a.lastTransform){a.el.setAttribute('transform',t);a.lastTransform=t}}}
 function renderResidents(){const list=$('resident-list');if(!list.children.length){list.innerHTML=agents.map(a=>`<button class="resident-card" data-id="${a.id}" aria-label="认识${a.name}">${avatar(a)}<b>${a.name}</b><small>${a.role}</small><em></em></button>`).join('');list.querySelectorAll('button').forEach(b=>b.onclick=()=>select(byId(b.dataset.id)))}for(const a of agents){const card=list.querySelector(`[data-id="${a.id}"]`);card.classList.toggle('active',a===selected);const loc=card.querySelector('em'),text=scenes[a.scene].name;if(loc.textContent!==text)loc.textContent=text}}
-const camera={x:160,y:130,w:1340,h:800};let following=null;
+const camera={x:30,y:30,w:1600,h:1000};let following=null;
 function setFollowing(a){following=a;agents.forEach(person=>person.el.classList.toggle('following',person===a))}
 function cameraApply(){ $('scene').setAttribute('viewBox',`${camera.x} ${camera.y} ${camera.w} ${camera.h}`);placeBubbles() }
-function focusAt(x,y,w=760){camera.w=w;camera.h=w*800/1340;camera.x=x-w/2;camera.y=y-camera.h/2;cameraApply()}
+function focusAt(x,y,w=760){camera.w=w;camera.h=w*1000/1600;camera.x=x-w/2;camera.y=y-camera.h/2;cameraApply()}
 function renderWorld(){for(const o of scenery)o.el.remove();lastDepth=0; $('map').innerHTML=worldArt(town);scenery=worldScenery(town).map(o=>{o.el=document.createElementNS(NS,'g');o.el.innerHTML=o.svg;o.el.style.pointerEvents='none';return o});lastDepth=-Infinity;renderPeople() }
-function switchScene(id){closePanel();setFollowing(null);currentScene=id;if(id==='all'){Object.assign(camera,{x:160,y:130,w:1340,h:800});cameraApply()}else focusAt(...scenes[id].center,850);document.querySelector('.location').textContent=`梧桐镇 · ${scenes[id]?.name||'全镇漫游'}`;renderPeople();renderStory();save()}
+function switchScene(id){closePanel();setFollowing(null);currentScene=id;if(id==='all'){Object.assign(camera,{x:30,y:30,w:1600,h:1000});cameraApply()}else focusAt(...scenes[id].center,850);document.querySelector('.location').textContent=`梧桐镇 · ${scenes[id]?.name||'全镇漫游'}`;renderPeople();renderStory();save()}
 function zoom(f){const w=Math.max(430,Math.min(1600,camera.w*f));focusAt(camera.x+camera.w/2,camera.y+camera.h/2,w)}
 function meetingPoints(id){const [x,y]=scenes[id].spots[1];return [[x-22,y],[x+20,y+5],[x,y-22],[x+2,y+25]]}
 
