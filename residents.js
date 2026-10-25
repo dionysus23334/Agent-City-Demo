@@ -45,8 +45,8 @@ const newNeighbours=[
 ['bai','白白','园艺志愿者','#9dac7f','#746d53','garden','刚搬来小镇，带着一箱扦插的小苗，希望能认识一起种花的人。','把小苗送给愿意照顾它们的邻居','我带了几株小苗，想一起种吗？',['今天的小苗长高了。','去请教一下阿禾。','想认识更多新邻居。'],['hua','tao']]
 ];
 newNeighbours.forEach(([id,name,role,color,hair,home,bio,goal,greeting,thoughts,links])=>{agents.push({id,name,role,color,hair,bio,goal,greeting,thoughts});homes[id]=home;friends[id]=links;links.forEach(other=>{if(!friends[other].includes(id))friends[other].push(id)})});
-const districtPoints={market:[[410,440],[500,480],[600,440],[670,490],[580,560],[470,560]],books:[[980,400],[1080,455],[1200,480],[1250,540],[1110,560],[980,510]],garden:[[370,635],[460,690],[570,665],[650,740],[570,810],[450,770]],river:[[870,650],[970,695],[1100,650],[1210,710],[1120,795],[980,790]]};
-const districtCenters={market:[535,485],books:[1110,470],garden:[515,715],river:[1040,720]};
+const districtPoints={"market": [[340, 470], [450, 470], [550, 470], [600, 470], [510, 470], [600, 540]], "books": [[990, 470], [1120, 470], [1250, 470], [1380, 470], [1180, 470], [1120, 540]], "garden": [[340, 730], [450, 730], [550, 730], [600, 730], [510, 730], [600, 660]], "river": [[990, 730], [1120, 730], [1250, 730], [1380, 730], [1180, 730], [1120, 660]]};
+const districtCenters={market:[460,470],books:[1190,470],garden:[460,730],river:[1190,730]};
 Object.entries(scenes).forEach(([id,s])=>{s.spots=districtPoints[id];s.center=districtCenters[id]});
 stories.push(
 {id:'welcome',scene:'garden',title:'新邻居的第一盆花',tag:'认识彼此',cast:['bai','tao','hua','wen'],intro:'白白带着小苗搬来了。陶陶想做花盆，温老师愿意教大家怎样照顾，新邻居决定从一盆花开始。',lines:['这是我带来的小苗。','我给它做一个新家。','这里的阳光很适合。','我们来写张养护卡。'],choices:[{label:'种苗、做花盆和养护卡',delta:{seeds:-1,coins:-2,harmony:7},result:'白白把小苗种进陶陶的花盆，温老师写下养护卡。新邻居认识了第一批朋友。',flag:'newplant'},{label:'先交换养花经验',delta:{harmony:4},result:'大家在花园坐了一会儿，白白记下每个人的养花方法，约好下一次一起种。',flag:'plantchat'}]},

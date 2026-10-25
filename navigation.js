@@ -1,9 +1,10 @@
 /* One connected pedestrian network. Coordinates are shared by drawing and simulation. */
 (function(root){
-const districts={market:[[410,440],[500,480],[600,440],[670,490],[580,560],[470,560]],books:[[980,400],[1080,455],[1200,480],[1250,540],[1110,560],[980,510]],garden:[[370,635],[460,690],[570,665],[650,740],[570,810],[450,770]],river:[[870,650],[970,695],[1100,650],[1210,710],[1120,795],[980,790]]};
-const nodes=[],edges=[];Object.values(districts).forEach(ps=>{let base=nodes.length;nodes.push(...ps);for(let i=0;i<6;i++)edges.push([base+i,base+(i+1)%6]);edges.push([base+1,base+4])});
-nodes.push([790,550],[750,660],[840,760],[830,435]);
-edges.push([3,24],[24,11],[4,14],[15,25],[25,24],[25,18],[18,11],[25,26],[26,23],[26,16],[2,27],[27,6],[24,27]);
+const districts={"market": [[340, 470], [450, 470], [550, 470], [600, 470], [510, 470], [600, 540]], "books": [[990, 470], [1120, 470], [1250, 470], [1380, 470], [1180, 470], [1120, 540]], "garden": [[340, 730], [450, 730], [550, 730], [600, 730], [510, 730], [600, 660]], "river": [[990, 730], [1120, 730], [1250, 730], [1380, 730], [1180, 730], [1120, 660]]};
+const xs=[320,450,600,730,860,990,1120,1250,1380],nodes=xs.map(x=>[x,470]).concat(xs.map(x=>[x,730])),edges=[];
+for(let row=0;row<2;row++)for(let i=0;i<8;i++)edges.push([row*9+i,row*9+i+1]);
+// Two streets, linked by two short lanes. No diagonal shortcuts.
+for(const i of [2,6]){const mid=nodes.length;nodes.push([xs[i],600]);edges.push([i,mid],[mid,i+9])}
 const distance=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]);
 function nearest(p){let best=null;edges.forEach(([u,v],i)=>{const a=nodes[u],b=nodes[v],dx=b[0]-a[0],dy=b[1]-a[1],t=Math.max(0,Math.min(1,((p[0]-a[0])*dx+(p[1]-a[1])*dy)/(dx*dx+dy*dy))),q=[a[0]+t*dx,a[1]+t*dy],d=distance(p,q);if(!best||d<best.d)best={q,d,u,v,edge:i}});return best}
 function route(start,goal){if(![...start,...goal].every(Number.isFinite))return null;const p=nearest(start),q=nearest(goal);if(p.d>1||q.d>1)return null;const ns=[...nodes,p.q,q.q],es=[...edges,[nodes.length,p.u],[nodes.length,p.v],[nodes.length+1,q.u],[nodes.length+1,q.v]];if(p.edge===q.edge)es.push([nodes.length,nodes.length+1]);const from=ns.length-2,to=ns.length-1,d=ns.map(()=>Infinity),prev=ns.map(()=>-1),done=new Set(),adj=ns.map(()=>[]);for(const [u,v]of es){adj[u].push(v);adj[v].push(u)}d[from]=0;for(let k=0;k<ns.length;k++){let u=-1;for(let i=0;i<ns.length;i++)if(!done.has(i)&&(u<0||d[i]<d[u]))u=i;if(u===to||u<0||!isFinite(d[u]))break;done.add(u);for(const v of adj[u]){let w=d[u]+distance(ns[u],ns[v]);if(w<d[v]){d[v]=w;prev[v]=u}}}if(!isFinite(d[to]))return null;let out=[],i=to;while(i!==from){out.unshift(ns[i].slice());i=prev[i];if(i<0)return null}if(distance(start,p.q)>.001)out.unshift(p.q.slice());return out}
