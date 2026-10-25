@@ -19,3 +19,5 @@ for(const id of Object.keys(scenes))for(let k=0;k<30;k++){const target=Nav.wande
 assert.equal(fs.readFileSync('index.html','utf8').includes('id="scene-tabs"'),false);
 
 const first=Nav.nodes[0],r=Nav.route(first,Nav.nodes[15]);const m=Nav.advance(first,r,41);assert.ok(Nav.route(m.position,Nav.nodes[22]));
+
+assert.equal(Nav.fountains.length,4);for(const [x,y,r]of Nav.fountains){assert.equal(Nav.walkable([x,y]),false);const route=Nav.route([x-r-25,y],[x+r+25,y]);assert.ok(route);let prev=[x-r-25,y];for(const pt of route){assert.ok(Nav.clear(prev,pt));prev=pt}}

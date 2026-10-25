@@ -2,7 +2,8 @@
 (function(root){
 const districts={"market": [[330, 480], [500, 520], [560, 465], [650, 440], [510, 575], [420, 560]], "books": [[950, 455], [1080, 495], [1180, 450], [1280, 570], [1130, 530], [980, 530]], "garden": [[380, 710], [500, 730], [600, 690], [650, 760], [550, 780], [450, 810]], "river": [[970, 700], [1080, 750], [1160, 740], [1260, 780], [1110, 805], [990, 800]]};
 const obstacles=[[275,305,520,430],[995,310,1245,430],[1265,445,1415,525],[255,580,425,675],[745,530,915,625],[1175,600,1350,708],[380,395,505,470],[665,375,790,450],[315,740,370,785],[900,550,960,590],[1000,600,1075,635],[540,545,680,615]];
-const circles=[[610,480,35,23],[500,650,57,34]];
+const fountains=[[610,480,28],[920,690,25],[760,760,30],[1330,755,23]];
+const circles=[...fountains.map(([x,y,r])=>[x,y,r+7,r*.48+7]),[500,650,57,34]];
 const distance=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]);
 function walkable(p){const [x,y]=p;return x>=245&&x<=1390&&y>=390&&y<=825&&!obstacles.some(([l,t,r,b])=>x>l-7&&x<r+7&&y>t-7&&y<b+7)&&!circles.some(([cx,cy,rx,ry])=>((x-cx)/(rx+7))**2+((y-cy)/(ry+7))**2<1)}
 function clear(a,b){if(!walkable(a)||!walkable(b))return false;
@@ -17,5 +18,5 @@ while(open.size){let u=-1,best=Infinity;for(const i of open){let f=cost[i]+dista
 if(!isFinite(cost[to]))return null;let points=[goal.slice()],i=to;while(i!==from){points.unshift(grid[i]);i=prev[i];if(i<0)return null}points.unshift(grid[from]);let result=[],pos=start;while(points.length){let j=points.length-1;while(j>0&&!clear(pos,points[j]))j--;pos=points[j];result.push(pos.slice());points=points.slice(j+1)}return result}
 function wander(id){const ps=districts[id];for(let k=0;k<40;k++){const base=ps[Math.floor(Math.random()*ps.length)],p=[base[0]+(Math.random()-.5)*100,base[1]+(Math.random()-.5)*65];if(walkable(p))return p}return ps[1].slice()}
 function advance(position,waypoints,amount){const p=[...position],remaining=waypoints.map(q=>[...q]);while(remaining.length&&amount>0){const q=remaining[0],d=distance(p,q);if(d<=amount){p[0]=q[0];p[1]=q[1];amount-=d;remaining.shift()}else{p[0]+=(q[0]-p[0])/d*amount;p[1]+=(q[1]-p[1])/d*amount;amount=0}}return {position:p,waypoints:remaining}}
-const api={nodes:Object.values(districts).flat(),districts,route,advance,distance,walkable,clear,wander};if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.TownNav=api;
+const api={fountains,nodes:Object.values(districts).flat(),districts,route,advance,distance,walkable,clear,wander};if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.TownNav=api;
 })(typeof globalThis!=='undefined'?globalThis:this);

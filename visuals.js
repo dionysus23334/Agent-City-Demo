@@ -135,7 +135,7 @@ function worldArt(state){
 function worldScenery(state){const out=[],add=(y,svg)=>out.push({y,svg});
  for(const h of [[280,350,155,80,115,'麦麦面包店','#a4aa91','#bb947d'],[650,300,110,60,85,'露露咖啡','#949f99','#c4b68c'],[1000,350,160,80,125,'慢邮书屋','#8b9b99','#b2a389'],[1270,480,80,60,85,'梧桐邮局','#a1a78c','#c1a28c'],[260,620,100,60,80,'园丁的小屋','#9eab8f','#c7bd91'],[750,570,100,60,90,'陶陶工坊','#a7a493','#bba38d'],[1180,650,110,60,90,'河岸茶馆','#9aa59b','#b09b86']])add(h[1]+h[2]*.44,building(...h));
  add(452,stall(390,420,'#b59a7c','果园来信','fruit'));add(427,stall(675,395,'#a6b18e','一束好心情','flower'));
- add(495,ellipse(610,491,28,14,'#929d87')+ellipse(610,484,28,13,'#d4d7bd','#7f8b79')+ellipse(610,481,22,9,'#b4c9c4')+path('M610 481v-30','#dce5d4',3));
+ for(const [x,y,r]of TownNav.fountains)add(y+r*.5,fountain(x,y,r));
  add(580,table(930,565));add(635,table(1035,610));
  add(775,poly('315,750 350,765 370,750 335,735','#b6a27c')+Array.from({length:6},(_,i)=>use('pot',325+i%3*12,750+Math.floor(i/3)*12,.5)).join(''));
  add(685,bench(690,665));add(825,bench(1020,807));
@@ -152,3 +152,5 @@ function worldScenery(state){const out=[],add=(y,svg)=>out.push({y,svg});
  if(state.flags.lantern)add(790,path('M1090 780Q1180 800 1290 775','#7e8065',1)+[1110,1140,1170,1200,1230,1260].map(x=>ellipse(x,787,4,6,'#e1bb71')).join(''));
  return out;
 }
+
+function fountain(x,y,r){return `<g class="town-fountain" transform="translate(${x} ${y})" aria-label="庭院喷泉">${ellipse(3,9,r+7,r*.48,'#64756218')}${ellipse(0,5,r,r*.48,'#aab59b','#82947d')}${ellipse(0,0,r,r*.48,'#e0e3cd','#82947d')}${ellipse(0,-2,r-6,r*.32,'#a9cbc7','#96b7aa')}<g class="fountain-water">${ellipse(0,-2,r*.6,r*.18,'none','#e8f1e4')}${path(`M${-r*.65} -3Q0 -12 ${r*.65} -3`,'#edf3e8',1)}</g>${path('M-4-5l1-24h6l1 24Z','#8f9e86',1,'#c2ceb3')}${ellipse(0,-27,r*.4,r*.16,'#d9dfc7','#95a58d')}<g class="fountain-water water-jets">${path(`M0 -29v-21M0 -46Q${-r*.6} -52 ${-r*.65} -8M0 -46Q${r*.6} -52 ${r*.65} -8`,'#93c1c4',1.8)}${ellipse(0,-49,2,3,'#d5e9df')}</g></g>`}
