@@ -69,7 +69,7 @@ h1{font-size:34px}.intro p{font-size:13.5px}.eyebrow{font-size:11px}.header-note
 @media(prefers-reduced-motion:reduce){.person.moving .leg{animation:none}}
 /* Slow, staggered gusts with still intervals; no per-frame JavaScript. */
 .plant-sway{transform-origin:0 0;transform-box:view-box;animation:plant-breeze var(--wind-duration) var(--wind-delay) ease-in-out infinite}
-@keyframes plant-breeze{0%,18%,45%,72%,100%{transform:rotate(0deg)}25%{transform:rotate(var(--lean))}33%{transform:rotate(calc(var(--lean)*-.7))}39%{transform:rotate(calc(var(--lean)*.35))}79%{transform:rotate(calc(var(--lean)*-.6))}87%{transform:rotate(calc(var(--lean)*.4))}}
+@keyframes plant-breeze{0%,100%{transform:rotate(0deg)}12%{transform:rotate(calc(var(--lean)*.12))}30%{transform:rotate(calc(var(--lean)*.6))}43%{transform:rotate(var(--lean))}58%{transform:rotate(calc(var(--lean)*.35))}72%{transform:rotate(calc(var(--lean)*-.18))}86%{transform:rotate(calc(var(--lean)*.08))}96%{transform:rotate(0deg)}}
 .falling-leaf{transform-origin:0 -63px;animation:leaf-drift var(--leaf-duration) var(--leaf-delay) linear infinite;opacity:0;pointer-events:none}
 @keyframes leaf-drift{0%,58%{opacity:0;transform:translate(0,0) rotate(0deg)}60%{opacity:.75;transform:translate(0,2px) rotate(10deg)}70%{opacity:.7;transform:translate(17px,21px) rotate(85deg)}80%{opacity:.7;transform:translate(7px,46px) rotate(145deg)}91%{opacity:.6;transform:translate(30px,68px) rotate(220deg)}98%,100%{opacity:0;transform:translate(38px,76px) rotate(250deg)}}
 .water-jets>path{stroke-dasharray:5 3;animation:jet-flow .65s linear infinite}@keyframes jet-flow{to{stroke-dashoffset:-16}}
@@ -79,3 +79,12 @@ h1{font-size:34px}.intro p{font-size:13.5px}.eyebrow{font-size:11px}.header-note
 .water-ripple{transform-origin:0 -2px;animation:ripple-spread 2.1s ease-out infinite}@keyframes ripple-spread{from{transform:scale(.6);opacity:.8}to{transform:scale(2.2);opacity:0}}
 .paused .plant-sway,.paused .falling-leaf,.paused .water-jets>path,.paused .jet-drop,.paused .water-ripple{animation-play-state:paused}
 @media(prefers-reduced-motion:reduce){.plant-sway,.falling-leaf,.water-jets>path,.jet-drop,.water-ripple{animation:none!important}.falling-leaf,.jet-drop{display:none}}
+
+/* A passing breeze travels across the town; mobile keeps leaves and fewer, softer sways. */
+@media(max-width:900px),(pointer:coarse){
+ .plant-sway{--lean:1.8deg!important;animation-duration:32s}
+ .plant-sway.quiet-plant{animation:none}
+ body::before{display:none}#map{filter:none}.world #scene{filter:none!important}
+ .world-top,.world-bottom,#panel,#story-panel,dialog::backdrop{backdrop-filter:none}
+ .scene-wrap::before{animation:none}
+}
