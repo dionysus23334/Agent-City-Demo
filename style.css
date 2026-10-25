@@ -60,3 +60,11 @@ h1{font-size:34px}.intro p{font-size:13.5px}.eyebrow{font-size:11px}.header-note
 
 /* A dashed foot ring identifies the camera target, independently of open panels. */
 .person .person-ring{stroke-dasharray:none}.person.following .person-ring{opacity:1;stroke:#8a704c;stroke-width:2;stroke-dasharray:4 3;fill:#f4e8bb26;vector-effect:non-scaling-stroke;pointer-events:none}
+
+/* Two simple alternating steps, with no new animation loop or bitmap assets. */
+.person .leg{transform-origin:0 0;transform-box:view-box;transform:rotate(0deg)}
+.person.moving .leg{animation:leg-step calc(.32s / var(--walk-tempo,1)) ease-in-out infinite alternate}
+.person.moving .leg-right{animation-direction:alternate-reverse}
+@keyframes leg-step{from{transform:rotate(-25deg) translateY(-.5px)}to{transform:rotate(25deg) translateY(.5px)}}
+.paused .person .leg{animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){.person.moving .leg{animation:none}}
