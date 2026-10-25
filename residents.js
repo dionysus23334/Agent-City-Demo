@@ -30,3 +30,27 @@ const stories=[
 {id:'picnic',scene:'garden',title:'把午饭摆在一起',tag:'野餐',cast:['mai','zhou','hua','tang'],intro:'花园的工作告一段落。有人带来面包，有人带来苹果，大家想把午饭拼成一场小小的野餐。',lines:['我带了餐包。','苹果洗好啦。','花园里留了块干净的地方。','我要坐在花旁边！'],choices:[{label:'一起分享面包和苹果',delta:{bread:-2,apples:-2,harmony:9},result:'桌布铺在花园边，忙碌的人们终于一起坐下，好好吃了一顿午饭。',flag:'picnic'},{label:'只分享苹果，留面包给晚班',delta:{apples:-2,harmony:5},result:'大家边吃苹果边聊天，把面包留给还没忙完的邻居。',flag:'fruitpicnic'}]},
 {id:'lantern',scene:'river',title:'留一盏归家的灯',tag:'黄昏',cast:['an','mu','yue'],intro:'安安说河岸晚间有点暗。木生想做一盏灯，小悦答应每天收琴时检查它是否亮着。',lines:['晚归的路如果亮一点就好了。','我来做灯架。','我收琴的时候照看它。'],choices:[{label:'装一盏河岸灯',delta:{wood:-1,coins:-3,harmony:8},result:'河岸的新灯亮了。安安走过时挥了挥手，小悦又多弹了一首歌。',flag:'lantern'},{label:'先结伴走夜路',delta:{harmony:4},result:'三个人约好在河边等晚归的邻居。灯可以慢慢做，今晚先一起回家。',flag:'walkhome'}]}
 ];
+
+// Chapter 04: ten new neighbours, all sharing one walkable world.
+const newNeighbours=[
+['lu','露露','咖啡师','#ad8a74','#645546','market','每天试一杯新配方，最喜欢听客人讲路上的趣事。','为今天的演出准备热饮','咖啡刚煮好，要来一杯吗？',['这杯是坚果香。','想去听小悦唱歌。','给晚归的人留杯热茶。'],['mai','yue']],
+['tao','陶陶','陶艺师','#b18c7d','#6e5b4c','garden','把花园的叶片纹路印在陶土上，想做一套只属于小镇的花盆。','和阿禾设计一只新花盆','我正在捏花盆，你喜欢圆的还是方的？',['这个纹路很像树叶。','陶土要慢慢干。','想给花园添一点颜色。'],['hua','mu']],
+['chen','陈叔','修车师傅','#7c9199','#777568','market','修过镇上几乎每一辆自行车。工具箱里总留着给邮差备用的零件。','检查安安自行车的刹车','车子响了就推过来，我帮你看看。',['链条该上点油了。','慢一点骑，路上安全。','安安今天送了多少信？'],['an','mu']],
+['ning','小宁','学生','#b4ab73','#625c4f','books','正在整理家乡口述史，录音笔里装满了老街的故事。','采访阿婆并整理成小册子','你好，我在记录小镇的故事。你也有一段吗？',['这段故事要记下来。','想借一本地方志。','阿婆一定知道答案。'],['po','xu']],
+['wen','温老师','退休教师','#969eb3','#b9bcb0','books','喜欢在书屋教孩子认植物，也会在音乐会时轻轻跟着打拍子。','为孩子们准备自然课堂','今天我们可以在外面上一节课。',['花园也是一间教室。','先观察，再提问。','书里还有很多小世界。'],['tang','xu']],
+['qiao','乔乔','摄影师','#879c91','#5d5b54','river','擅长拍下不经意的笑容。正为小镇做一组日常生活照片。','拍下大家一起工作的瞬间','不用看镜头，做你正在做的事就好。',['这一束光刚刚好。','想拍下桥上的人。','照片也能讲故事。'],['lin','yue']],
+['yu','余伯','船夫','#8b9aab','#b0b0a0','river','熟悉河水的每一道转弯。收船后喜欢给孩子讲河岸以前的模样。','检查码头的系船绳','今天风不大，河边很舒服。',['水位比昨天低一点。','绳结要再检查一遍。','我来讲一段旧河道。'],['po','chen']],
+['song','松松','蜂农','#c1a36d','#786149','garden','养蜂也种花，常把新收的蜂蜜带到面包房试配方。','和麦麦试做蜂蜜面包','这罐蜂蜜带着花香，你闻闻。',['蜜蜂喜欢这片花。','蜂蜜配面包很好吃。','花园越热闹越好。'],['mai','tang']],
+['xia','夏夏','裁缝','#b18c9c','#65524d','market','用邻居留下的碎布做小旗和布袋，想让节日布置也能重复使用。','为河岸演出缝一串彩旗','这块布还能用，给它一个新样子吧。',['碎布也能变漂亮。','彩旗还差最后一面。','给邮袋补一针。'],['an','yue']],
+['bai','白白','园艺志愿者','#9dac7f','#746d53','garden','刚搬来小镇，带着一箱扦插的小苗，希望能认识一起种花的人。','把小苗送给愿意照顾它们的邻居','我带了几株小苗，想一起种吗？',['今天的小苗长高了。','去请教一下阿禾。','想认识更多新邻居。'],['hua','tao']]
+];
+newNeighbours.forEach(([id,name,role,color,hair,home,bio,goal,greeting,thoughts,links])=>{agents.push({id,name,role,color,hair,bio,goal,greeting,thoughts});homes[id]=home;friends[id]=links;links.forEach(other=>{if(!friends[other].includes(id))friends[other].push(id)})});
+const districtPoints={market:[[410,440],[500,480],[600,440],[670,490],[580,560],[470,560]],books:[[980,400],[1080,455],[1200,480],[1250,540],[1110,560],[980,510]],garden:[[370,635],[460,690],[570,665],[650,740],[570,810],[450,770]],river:[[870,650],[970,695],[1100,650],[1210,710],[1120,795],[980,790]]};
+const districtCenters={market:[535,485],books:[1110,470],garden:[515,715],river:[1040,720]};
+Object.entries(scenes).forEach(([id,s])=>{s.spots=districtPoints[id];s.center=districtCenters[id]});
+stories.push(
+{id:'welcome',scene:'garden',title:'新邻居的第一盆花',tag:'认识彼此',cast:['bai','tao','hua','wen'],intro:'白白带着小苗搬来了。陶陶想做花盆，温老师愿意教大家怎样照顾，新邻居决定从一盆花开始。',lines:['这是我带来的小苗。','我给它做一个新家。','这里的阳光很适合。','我们来写张养护卡。'],choices:[{label:'种苗、做花盆和养护卡',delta:{seeds:-1,coins:-2,harmony:7},result:'白白把小苗种进陶陶的花盆，温老师写下养护卡。新邻居认识了第一批朋友。',flag:'newplant'},{label:'先交换养花经验',delta:{harmony:4},result:'大家在花园坐了一会儿，白白记下每个人的养花方法，约好下一次一起种。',flag:'plantchat'}]},
+{id:'honey',scene:'market',title:'一杯咖啡的好搭档',tag:'新配方',cast:['lu','song','mai'],intro:'松松送来新蜂蜜，麦麦想试做小面包，露露觉得这会是咖啡的好搭档。',lines:['今天的咖啡带点坚果香。','蜂蜜是这周新收的。','我们试试蜂蜜餐包吧。'],choices:[{label:'联合推出试吃组合',delta:{bread:-2,coins:3,harmony:5},result:'咖啡、蜂蜜与面包摆到同一张桌上。三位店主收到了第一批配方建议。',flag:'honey'},{label:'留给早起工作的邻居',delta:{bread:-1,harmony:6},result:'露露和麦麦给早起的邻居留了早餐，松松在蜂蜜罐上画了一朵小花。',flag:'honeygift'}]},
+{id:'bike',scene:'market',title:'邮差的自行车响了',tag:'修理',cast:['chen','an','xia'],intro:'安安的车链响了一路，邮袋也磨破了。陈叔检查车子，夏夏拿来了针线。',lines:['别急着骑，我看看链条。','修好以后还要去河岸送信。','邮袋也交给我吧。'],choices:[{label:'换零件，补好邮袋',delta:{coins:-3,harmony:7},result:'自行车不再异响，旧邮袋也补好了。安安带着邻居的帮助继续送信。',flag:'bike'},{label:'先保养链条、加固破口',delta:{harmony:4},result:'陈叔给链条上油，夏夏加固了邮袋。安安约好下周再做一次完整检查。',flag:'bikemaintenance'}]},
+{id:'archive',scene:'books',title:'给小镇留一张合影',tag:'记录',cast:['ning','qiao','po','yu'],intro:'小宁整理口述史，乔乔想用一张合影为小册子作封面。阿婆和余伯带来了旧河岸的回忆。',lines:['我想把这些故事整理成册。','大家自然站在一起就好。','这条街以前有棵很大的树。','老码头的故事我还记得。'],choices:[{label:'印一本图文小册子',delta:{coins:-3,harmony:8},result:'乔乔拍下合影，小宁把阿婆和余伯的回忆编进小册子，放进书屋供大家翻阅。',flag:'archive'},{label:'先在书屋办口述分享',delta:{harmony:5},result:'四人在书屋围坐分享，河岸的旧故事第一次被新邻居们听见。',flag:'oralhistory'}]}
+);
