@@ -88,3 +88,28 @@ h1{font-size:34px}.intro p{font-size:13.5px}.eyebrow{font-size:11px}.header-note
  .world-top,.world-bottom,#panel,#story-panel,dialog::backdrop{backdrop-filter:none}
  .scene-wrap::before{animation:none}
 }
+
+/* Shared SVG controls: identical geometry on desktop, Android and iOS. */
+.ui-icon{width:18px;height:18px;display:inline-block;flex-shrink:0;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+button .ui-icon{pointer-events:none}.brandmark .ui-icon{width:25px;height:25px}.sun .ui-icon{width:32px;height:32px}.sun{display:flex;align-items:center}
+#full,.event-button,.weather-controls button,.camera-tools button,.actions button,.secondary,.text-button{display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.weather-controls button{min-height:40px}.close .ui-icon{width:20px;height:20px}.mobile-hint{display:none}.story-list button>span{display:flex}.story-list button>div{min-width:0;flex:1}.story-list b{line-height:1.5}.story-list em{flex-shrink:0}
+@media(max-width:800px){
+ header{padding:0 16px;height:70px}.brand{font-size:19px;letter-spacing:2px}.brand small{font-size:8px;letter-spacing:1px}.text-button{min-height:44px;padding:0 0 0 12px;font-size:12px}
+ main{padding:0 12px}.intro{display:block;padding:24px 4px 18px}.intro h1{font-size:28px;margin:9px 0 12px}.eyebrow{font-size:9px;letter-spacing:1.5px}.intro p{font-size:12px;max-width:none;line-height:1.8}.weather{margin-top:16px;padding:0;gap:9px;font-size:12px}.weather small{display:inline;margin-left:10px;font-size:10px}.sun .ui-icon{width:24px;height:24px}
+ .world-top{height:54px;padding:0 12px;gap:8px}.world-top .location{font-size:11px;letter-spacing:0;min-width:0;overflow:hidden;text-overflow:ellipsis}.clock{flex-shrink:0;gap:8px}.clock .divider{display:none}.clock #clock{display:inline;font-size:12px}.clock #full{font-size:11px;min-height:40px;padding:6px 8px;white-space:nowrap}.clock .live-dot{display:none}
+ .scene-wrap{height:58svh;min-height:350px;max-height:560px}.camera-tools{left:10px;top:10px;gap:6px}.camera-tools button{min-height:40px;padding:8px 11px;font-size:12px}.camera-tools #zoom-in,.camera-tools #zoom-out{width:40px;padding:0}
+ .map-note{bottom:12px;left:12px;font-size:10px}.desktop-hint{display:none}.mobile-hint{display:inline}.map-note span{margin:0}
+ .world-bottom{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;padding:12px;min-height:0}
+ .playback{grid-column:1;grid-row:1;gap:2px;min-width:0}.playback button{width:34px;height:42px;font-size:12px}.playback .rule{margin:0 3px}
+ .world-bottom #event{grid-column:2;grid-row:1;margin:0;min-height:42px;padding:8px 10px;font-size:12px;white-space:nowrap}
+ .weather-controls{grid-column:1/-1;grid-row:2;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;border-top:1px solid var(--line);padding-top:10px}
+ .weather-controls button{min-width:0;min-height:44px;padding:6px 2px;font-size:11px;gap:5px}.weather-controls .ui-icon{width:17px;height:17px}
+ #precipitation-controls{grid-column:1/-1;grid-row:3;display:grid;grid-template-columns:auto minmax(40px,1fr) auto;gap:10px;width:auto;justify-content:stretch;padding:10px 0 0}#precipitation{width:100%;min-width:0;height:32px;margin:0}#precipitation-label{min-width:0;font-size:11px}#weather-hint{display:none}
+ .world #panel,.world #story-panel,.world:fullscreen #panel,.world:fullscreen #story-panel,.world.fs #panel,.world.fs #story-panel{top:62px;bottom:calc(var(--controls-height,124px) + 8px)!important;right:8px;width:calc(100% - 16px);padding:28px 18px 18px;border-radius:12px;overscroll-behavior:contain}
+ .chat-form input{font-size:16px;padding:12px 10px}.chat-form button{width:44px;flex-shrink:0}.quick-asks{gap:5px}.quick-asks button{flex:1;min-height:40px;font-size:11px}.actions{gap:8px}.actions button{min-height:44px;font-size:12px}.messages{height:120px}.message{font-size:12px}.bio,.status-box{font-size:12px}.mood-row{flex-wrap:wrap;gap:8px}.secondary{min-height:44px}.story-list button{padding:12px;gap:10px}.story-list small{font-size:11px}.story-list b{font-size:14px}
+ #resources{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 10px;padding:16px;margin-top:14px;font-size:11px}#resources .ledger-title{grid-column:1/-1;width:auto}#resources>span:not(.ledger-title):not(.story-count){display:flex;flex-wrap:wrap;align-items:baseline;gap:4px}#resources b{margin:0;font-size:17px}#resources .story-count{grid-column:1/-1;margin:0;border-top:1px solid var(--line);padding-top:12px}
+ .under{padding:24px 4px;gap:28px}#resident-list{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;max-height:290px;padding-bottom:3px}.resident-card{min-width:0;min-height:115px;padding:12px 3px}.resident-card small{font-size:10px;line-height:1.5}.resident-card em{font-size:9px;line-height:1.5}.section-label span{letter-spacing:1px}.journal #journal{height:190px}.journal-line{font-size:12px}footer{line-height:1.8;letter-spacing:0;padding:18px 4px}
+ .world:fullscreen .scene-wrap,.world.fs .scene-wrap{min-height:0;max-height:none;flex:1}.world:fullscreen .world-bottom,.world.fs .world-bottom{flex-shrink:0;padding-bottom:max(12px,env(safe-area-inset-bottom))}
+}
+@media(max-width:359px){.playback button{width:29px}.world-bottom #event{padding:8px;font-size:11px}.weather-controls button{gap:3px}#resident-list{grid-template-columns:repeat(3,minmax(0,1fr))}.weather small{display:block;margin:4px 0 0}}
