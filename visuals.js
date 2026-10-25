@@ -116,36 +116,39 @@ return s;
 }
 function districtScenery(id){return id==='market'?[{y:434,svg:stall(371,414,'#b19a76','果园来信','fruit')},{y:430,svg:stall(790,410,'#a3ae8a','一束好心情','flower')},{y:568,svg:stall(750,548,'#b99683','今日烘焙','bread')},{y:518,svg:use('tree',934,518,1.1)},{y:624,svg:use('tree',683,624,.9)}]:[...(id==='books'?[{y:425,svg:use('tree',670,425,1.1)}]:[]),{y:600,svg:use('tree',760,600,1.05)},{y:536,svg:use('tree',940,536,.9)}]}
 
-// A compact town organized around two parallel streets and two connecting lanes.
+// Small lived-in places connected by gentle paths, recalling the original scene compositions.
 function worldArt(state){
- const ground='180,300 790,160 1480,350 1480,770 1240,900 490,900 190,770';
- const streets=TownNav.edges.map(([a,b])=>`M${TownNav.nodes[a].join(' ')}L${TownNav.nodes[b].join(' ')}`).join('');
- let s=ellipse(830,785,600,120,'#68705d12')+poly(ground,'#b5bca0','#919b80',2)+`<g transform="translate(0 -8)">${poly(ground,'#dde0c5','#9da789',1.5)}</g>`;
- s+=path('M240 820Q790 960 1410 820','#bdcdd0',46)+path('M240 820Q790 960 1410 820','#e4ebe0',2);
- s+=path(streets,'#c9c6ad',34)+path(streets,'#eee7d6',27)+`<path d="${streets}" fill="none" stroke="url(#paving)" stroke-width="25"/>`;
- // Doorstep paths are small and subordinate to the main streets.
- for(const x of [390,680,970,1280])s+=path(`M${x} 433V454`,'#d4cbb2',12);
- for(const x of [390,820,1280])s+=path(`M${x} 690V714`,'#d4cbb2',12);
- s+=ellipse(685,560,49,32,'#e9e1cc');
- s+=txt(800,240,'梧 桐 镇',23)+txt(810,260,'STREETS MADE FOR EVERYDAY LIFE',9,'#92987d');
- s+=txt(790,501,'梧 桐 街',11,'#92947d')+txt(840,762,'河 岸 路',11,'#92947d');
- for(const [x,y] of [[975,575],[975,635],[465,800]]){s+=poly(`${x-35},${y-18} ${x+35},${y-18} ${x+35},${y+18} ${x-35},${y+18}`,'#bec5a0','#a1ac88');for(let i=0;i<8;i++)s+=use('pot',x-25+i%4*17,y-6+Math.floor(i/4)*18,.48)}
- if(state.flags.planted||state.flags.newplant)s+=txt(975,672,'❀ 邻里花圃',11);
+ const ground='175,340 700,130 1465,355 1500,650 1370,855 780,945 230,810 160,580';
+ let s=ellipse(820,790,615,135,'#68705d12')+poly(ground,'#bac2a9','#98a38b',2)+`<g transform="translate(0 -9)">${poly(ground,'#dce0c7','#aab397',1)}</g>`;
+ s+=path('M245 842Q650 970 1390 845','#b8cecc',48)+path('M245 842Q650 970 1390 845','#e4eade',2);
+ const lane='M350 505Q460 575 650 470Q810 400 1000 485T1340 580M570 568Q650 625 585 713Q720 820 940 744T1280 788';
+ s+=path(lane,'#d1cdb7',39)+path(lane,'#eae3cf',34);
+ for(const points of ['290,470 460,450 650,475 680,545 520,600 325,550','940,445 1110,435 1295,545 1205,585 1000,555','365,690 520,675 675,735 610,805 400,825','950,705 1130,695 1325,770 1240,825 985,820'])s+=poly(points,'#e7e2ce','none')+poly(points,'url(#paving)','none');
+ s+=ellipse(500,650,53,30,'#a5bca8','#8f9f84')+ellipse(498,645,47,24,'#c5d8ce','#a2b9aa')+ellipse(480,639,9,4,'#93ad8c')+ellipse(514,654,12,5,'#9fb498');
+ s+=txt(835,190,'梧 桐 镇',23)+txt(835,210,'LITTLE PLACES, EVERYDAY STORIES',9,'#919980');
+ s+=txt(370,593,'热面包与花香',10,'#98977f')+txt(1070,588,'在书页间坐一会儿',10,'#98977f')+txt(650,834,'慢慢长，也很好',10,'#98977f');
  if(state.flags.picnic||state.flags.fruitpicnic)s+=poly('700,790 765,810 800,790 735,770','#ceab91')+txt(751,795,'野餐',10);
- if(state.flags.butterflies)for(let i=0;i<5;i++)s+=txt(940+i*13,550+Math.sin(i)*12,'ʚɞ',15,'#ad9270');
- if(state.flags.board||state.flags.windowboard)s+=poly('1035,530 1080,530 1080,565 1035,565','#e8d6af')+txt(1057,552,'公告',10);
+ if(state.flags.butterflies)for(let i=0;i<5;i++)s+=txt(455+i*13,621+Math.sin(i)*12,'ʚɞ',15,'#ad9270');
+ for(const [x,y]of [[547,584],[560,590],[955,675],[967,680]])s+=ellipse(x,y,4,3,'#98a38c')+ellipse(x+3,y-3,2,2,'#7d8d77');
  return s;
 }
-function worldScenery(state){const out=[];const add=(y,svg)=>out.push({y,svg});
- const houses=[[300,370,130,65,105,'麦麦面包店','#a4aa91','#bb947d'],[590,370,130,65,90,'露露咖啡','#949f99','#c4b68c'],[880,370,130,65,115,'梧桐书屋','#8b9b99','#b2a389'],[1190,370,130,65,95,'安安邮局','#a1a78c','#c1a28c'],[300,625,130,65,90,'园艺小屋','#9eab8f','#c7bd91'],[730,625,130,65,95,'陶陶工坊','#a7a493','#bba38d'],[1190,625,130,65,90,'河岸茶室','#9aa59b','#b09b86']];
- for(const h of houses)add(h[1]+h[2]*.44,building(...h));
- add(565,stall(320,530,'#adb99c','花与种子','flower'));add(565,stall(1240,530,'#b6a58b','修理铺','fruit'));
- add(569,ellipse(685,569,23,11,'#939d8a')+ellipse(685,562,23,11,'#d4d7bd','#7f8b79')+ellipse(685,559,18,7,'#b4c9c4')+path('M685 559v-24','#dce5d4',3));
- add(635,bench(645,620));add(635,bench(1015,620));
- add(815,poly('1010,790 1115,815 1175,790 1070,765','#c6b593')+txt(1090,793,state.flags.concert?'♫ 今晚有歌':'♫ 河岸舞台',11));
- if(state.flags.archive||state.flags.oralhistory)add(432,txt(968,432,'小镇记忆展',10));
- for(const [x,y,k] of [[240,415,.8],[520,405,.7],[810,405,.7],[1100,405,.7],[1425,420,.8],[235,650,.8],[530,655,.7],[1050,695,.65],[1430,650,.8],[300,800,.65],[865,825,.6],[1320,805,.7]])add(y,use('tree',x,y,k));
- for(const [x,y] of [[540,500],[1050,500],[660,760],[1380,760]])add(y,use('lamp',x,y,.75));
- if(state.flags.lantern)add(780,path('M1000 770Q1080 800 1180 770','#7e8065',1)+[1020,1050,1080,1110,1140,1170].map(x=>ellipse(x,780,4,6,'#e1bb71')).join(''));
+function worldScenery(state){const out=[],add=(y,svg)=>out.push({y,svg});
+ for(const h of [[280,350,155,80,115,'麦麦面包店','#a4aa91','#bb947d'],[650,300,110,60,85,'露露咖啡','#949f99','#c4b68c'],[1000,350,160,80,125,'慢邮书屋','#8b9b99','#b2a389'],[1270,480,80,60,85,'梧桐邮局','#a1a78c','#c1a28c'],[260,620,100,60,80,'园丁的小屋','#9eab8f','#c7bd91'],[750,570,100,60,90,'陶陶工坊','#a7a493','#bba38d'],[1180,650,110,60,90,'河岸茶馆','#9aa59b','#b09b86']])add(h[1]+h[2]*.44,building(...h));
+ add(452,stall(390,420,'#b59a7c','果园来信','fruit'));add(427,stall(675,395,'#a6b18e','一束好心情','flower'));
+ add(495,ellipse(610,491,28,14,'#929d87')+ellipse(610,484,28,13,'#d4d7bd','#7f8b79')+ellipse(610,481,22,9,'#b4c9c4')+path('M610 481v-30','#dce5d4',3));
+ add(580,table(930,565));add(635,table(1035,610));
+ add(775,poly('315,750 350,765 370,750 335,735','#b6a27c')+Array.from({length:6},(_,i)=>use('pot',325+i%3*12,750+Math.floor(i/3)*12,.5)).join(''));
+ add(685,bench(690,665));add(825,bench(1020,807));
+ // A glass greenhouse restores the garden's distinct silhouette.
+ add(615,`<g transform="translate(545 570)">${poly('0,0 80,33 130,8 50,-25','#bdd0b5')}${poly('0,0 80,33 80,-20 0,-53','#d7e4cfbb')}${poly('80,33 130,8 130,-45 80,-20','#bfd5c3cc')}${poly('0,-53 80,-20 130,-45 50,-78','#ccdecb99')}${path('M0-53 80-20 130-45M25-43v53M53-31v53M103-32v51','#8eaa91',1.5)}${txt(65,-2,'温室',11)}</g>`);
+ add(826,poly('1115,805 1190,833 1260,805 1185,777','#baa886','#8f947a')+txt(1185,811,state.flags.concert?'♫ 今晚有歌':'♫ 河岸小舞台',10));
+ // Original market bunting, offset buildings, books and planted corners.
+ add(390,path('M435 320Q550 410 685 335','#89917a',1)+Array.from({length:10},(_,i)=>{let t=i/10,x=447+t*225,y=335+Math.sin(t*Math.PI)*27;return poly(`${x},${y} ${x+12},${y+2} ${x+5},${y+15}`,['#bd927a','#a8b390','#d4c293'][i%3],'#919780',.5)}).join(''));
+ for(const [x,y,k]of [[220,420,.9],[535,350,.8],[870,330,.9],[1415,575,.8],[230,740,.7],[720,865,.75],[1390,800,.8]])add(y,use('tree',x,y,k));
+ for(const [x,y]of [[540,608],[955,575],[1150,650],[710,725]])add(y,use('lamp',x,y,.7));
+ if(state.flags.planted||state.flags.newplant)add(785,txt(350,800,'❀ 邻里的新花圃',10));
+ if(state.flags.archive||state.flags.oralhistory)add(432,txt(1100,432,'小镇记忆展',10));
+ if(state.flags.board||state.flags.windowboard)add(580,txt(1000,575,'邻里公告 · 一起做点小事',10));
+ if(state.flags.lantern)add(790,path('M1090 780Q1180 800 1290 775','#7e8065',1)+[1110,1140,1170,1200,1230,1260].map(x=>ellipse(x,787,4,6,'#e1bb71')).join(''));
  return out;
 }
